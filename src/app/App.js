@@ -1,10 +1,12 @@
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../img/argentBankLogo.png';
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <nav className="main-nav">
         <Link to={'/'} className={"main-nav-logo"} >
           <img
@@ -25,7 +27,7 @@ function App() {
       <footer className="footer">
         <p className="footer-text">Copyright 2020 Argent Bank</p>
       </footer>
-    </>
+    </Provider>
   );
 }
 
