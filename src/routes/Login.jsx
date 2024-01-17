@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { loginUser } from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../features/user/userSlice';
+import {Navigate, useNavigate} from "react-router";
+import Loading from "../components/Loading";
 
 function Login() {
 
@@ -9,6 +11,13 @@ function Login() {
   const [remember, setRemember] = useState(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // redux states
+  const {loading, user, error} = useSelector((state) => state.user);
+
+  if(user !== null) return <Navigate to={'/'} />;
+
   /**
    * 
    * @param {Event} e 
@@ -18,17 +27,29 @@ function Login() {
     e.preventDefault();
 
     let userCredentials= {
-      email, password
+      email, password, remember
     }
-    dispatch(loginUser(userCredentials));
+    dispatch(loginUser(userCredentials)).then((result) => {
+      if(result.payload){
+          setEmail(null);
+          setPassword(null);
+          navigate('/');
+      }
+  });
   }
 
   return (
     <main className="main bg-dark">
+      {loading ? (<Loading />) : null}
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form id="login" onSubmit={submitLogin}>
+          {error !== null ? <div id="alert" style={{marginBottom: '20px'}}>
+            <div id="fr-alert-:rd:" className="fr-alert fr-alert--error fr-alert--sm" role="alert">
+              <h3 className="fr-alert__title">{error}</h3>
+            </div>
+          </div> : null }
           <div className="input-wrapper">
             <label htmlFor="username">Username </label>
             <input type="text" id="username" onChange={(e) => setEmail(e.target.value)} />

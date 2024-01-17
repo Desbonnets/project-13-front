@@ -310,3 +310,24 @@ body {
     width: 200px;
   }
 }
+
+.fr-alert--error {
+  box-shadow: inset 0 0 0 1px #ce0500, inset 2.5rem 0 0 0 #ce0500;
+}
+
+.fr-alert--sm {
+  padding: 0.5rem 0.5rem 0.5rem 3rem;
+}
+
+.fr-alert {
+  position: relative;
+  --title-spacing: 0 0 0.25rem;
+  --text-spacing: 0 0 0.25rem;
+}
+
+.fr-alert__title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}

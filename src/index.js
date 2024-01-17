@@ -7,6 +7,8 @@ import Profile from './routes/Profile';
 import Error404 from './routes/Error404';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './app/store';
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -43,7 +45,9 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
