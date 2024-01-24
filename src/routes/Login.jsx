@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/user/userSlice';
 import {Navigate, useNavigate} from "react-router";
 import Loading from "../components/Loading";
+import { getProfil } from "../features/profile/ProfileSlice";
 
 function Login() {
 
@@ -14,9 +15,9 @@ function Login() {
   const navigate = useNavigate();
 
   // redux states
-  const {loading, user, error} = useSelector((state) => state.user);
+  const {loading, token, error} = useSelector((state) => state.user);
 
-  if(user !== null) return <Navigate to={'/'} />;
+  if(token !== null) return <Navigate to={'/'} />;
 
   /**
    * 
@@ -33,6 +34,7 @@ function Login() {
       if(result.payload){
           setEmail(null);
           setPassword(null);
+          // dispatch(getProfil(result.payload.body.token));
           navigate('/');
       }
   });

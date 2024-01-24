@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../img/argentBankLogo.png';
 import './App.css';
-import {useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeUser} from "../features/user/userSlice";
 import {useNavigate} from "react-router";
 
@@ -10,9 +10,9 @@ function App() {
   const navigate = useNavigate();
 
   // redux states
-  const {user} = useSelector((state) => state.user);
-
-  const store = useStore();
+  const {token} = useSelector((state) => state.user);
+  const {profile} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -27,16 +27,22 @@ function App() {
         </Link>
         <div>
           {
-            !user ? 
+            !token ? 
               <Link className={"main-nav-item"} to={"/login"}>
                 <i className="fa fa-user-circle"></i>
                 Sign In
               </Link>
             :
-              <button className={"main-nav-item"} style={{border:0, backgroundColor:'white'}} onClick={function (){store.dispatch(removeUser()); navigate('/');}}>
+            <div>
+              <Link className="main-nav-item" to={`/profile`}>
                 <i className="fa fa-user-circle"></i>
-                Logout
+                {profile ? profile.firstName : null} {profile ? profile.lastName : null}
+              </Link>
+              <button className={"main-nav-item"} style={{border:0, backgroundColor:'white'}} onClick={function () {dispatch(removeUser()); navigate('/');}}>
+                <i className="fa fa-sign-out"></i>
+                Sign Out
               </button>
+            </div>
           }
           
         </div>

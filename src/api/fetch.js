@@ -14,7 +14,7 @@ async function fetchData(url, options){
                 if (response.status === 400) {
                     throw new Error('Request failed with statuts code 400');
                 } else {
-                    throw new Error(`Request failed with status code ${response.status}`);
+                    throw new Error(`Request failed with statuts code ${response.status}`);
                 }
             }
         })
@@ -29,7 +29,7 @@ async function fetchData(url, options){
  */
 
 export async function fetchGetData (url, token) {
-    let header = token ? ({'authorization': 'Bearer ' + token}) : '';
+    let header = token ? ({'Authorization': 'Bearer ' + token}) : '';
 
     let options = {
         method: 'GET',
@@ -48,19 +48,27 @@ export async function fetchGetData (url, token) {
  * @return {Promise<Response|{error}>} data or error
  */
 
-export async function fetchPostData (url, data, token=null) {
+export async function fetchPostData (url, data=null, token=null) {
     let options;
-    if(token !== null){
+    if(token !== null && data !== null){
         options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(data),
                 mode: 'cors',
             };
-    }else {
+    }else if(token !== null) {
+        options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            mode: 'cors',
+        };
+    }else if(data !== null) {
         options = {
             method: 'POST',
             headers: {
@@ -69,6 +77,8 @@ export async function fetchPostData (url, data, token=null) {
             body: JSON.stringify(data),
             mode: 'cors',
         };
+    }else{
+        console.error("data=null && token=null");
     }
 
     return fetchData(url, options);
@@ -77,12 +87,46 @@ export async function fetchPostData (url, data, token=null) {
 /**
  * fetch data en methode PUT
  * @param {String} url
+ * @param {Object} data
  * @param {String} token
  * @return {Promise<Response|{error}>} data or error
  */
 
-export async function fetchPutData (url, token) {
-    // options à faire et la requête a envoyé
+export async function fetchPutData(url, data=null, token=null) {
+    console.log(data);
+    let options;
+    if(token !== null && data !== null){
+        options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+                mode: 'cors',
+            };
+    }else if(token !== null) {
+        options = {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            mode: 'cors',
+        };
+    }else if(data !== null) {
+        options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            mode: 'cors',
+        };
+    }else{
+        console.error("data=null && token=null");
+    }
+
+    return fetchData(url, options);
 }
 
 /**
