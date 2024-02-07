@@ -17,7 +17,6 @@ const ProfileForm = () => {
 
   const dispatch = useDispatch();
   const {token} = useSelector((state) => state.user);
-  const {firstName, lastName} = useSelector((state) => state.user.profile);
 
   const userRef = useRef(null)
 
@@ -51,28 +50,21 @@ const ProfileForm = () => {
         <form onSubmit={handleSubmit}>
             <div className={styles.inputWrapper}>
               <div className={styles.inputWrapper}>
-                <label>FirstName</label>
-                  <input type="text" ref={userRef} onChange={(e)=>{setFirstNameInput(e.target.value)}} required/>
-                  {/* {validInput(firstNameInput) !== '' (
-                    <span style={{color: 'red'}}>{validInput(firstNameInput)}</span>
-                  )} */}
+                <input placeholder='FirstName' type="text" ref={userRef} onChange={(e)=>{setFirstNameInput(e.target.value)}} required/>
               </div>
               <div className={styles.inputWrapper}>
-                <label>LastName</label>
-                <input type="text" onChange={(e)=>{setLastNameInput(e.target.value)}} required/>
-                {/* {validInput(lastNameInput) !== '' (
-                  <span style={{color: 'red'}}>{validInput(lastNameInput)}</span>
-                )} */}
+                <input placeholder='LastName' type="text" onChange={(e)=>{setLastNameInput(e.target.value)}} required/>
               </div>
             </div>
             <div className={styles.inputWrapper}>
-            <button className={styles.editButton}>
+            <button type='submit' className={styles.editSubmitButton}>
                 Save
             </button>
-            <button
-                className={styles.editButton}
-                onClick={(e) => e.target.closest('form').reset()}
-            >
+            <button type='button' className={styles.editSubmitButton} onClick={(e) => 
+              {
+                e.target.closest('form').reset(); 
+                setIsUserEditShown(false);
+              }} >
                 Cancel
             </button>
             </div>

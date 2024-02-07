@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/user/userSlice';
 import {Navigate, useNavigate} from "react-router";
 import Loading from "../components/Loading";
-import { getProfil } from "../features/profile/ProfileSlice";
 
 function Login() {
 
   const [email, setEmail] = useState(null);
+  const [errorE, setErrorE] = useState(null);
+  const [errorP, setErrorP] = useState(null);
   const [password, setPassword] = useState(null);
   const [remember, setRemember] = useState(null);
 
@@ -26,6 +27,20 @@ function Login() {
   const submitLogin = (e) => {
 
     e.preventDefault();
+    const regex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    if(!email || !regex.test(email)){
+        setErrorE(true);
+        return;
+    }else {
+        setErrorE(false);
+    }
+
+    if(!password){
+        setErrorP(true);
+        return;
+    }else {
+        setErrorP(false);
+    }
 
     let userCredentials= {
       email, password, remember
@@ -54,11 +69,13 @@ function Login() {
           </div> : null }
           <div className="input-wrapper">
             <label htmlFor="username">Username </label>
-            <input type="text" id="username" onChange={(e) => setEmail(e.target.value)} />
+            <input type="text" style={errorE ? {borderColor: 'red'} : {}} id="username" onChange={(e) => setEmail(e.target.value)} required />
+            {errorE ? <p style={{color: 'red'}}>Invalid E-mail</p> : null}
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" style={errorP ? {borderColor: 'red'} : {}} id="password" onChange={(e) => setPassword(e.target.value)} required />
+            {errorP ? <p style={{color: 'red'}}>Invalid password</p> : null}
           </div>
           <div className="input-remember">
             <input type="checkbox" id="remember-me" onChange={(e) => setRemember(e.target.value)}/>

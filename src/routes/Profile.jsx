@@ -8,7 +8,6 @@ function Profile() {
   // redux states
   const {token} = useSelector((state) => state.user);
   const {profile} = useSelector((state) => state.user);
-  console.log(profile);
 
   if(!token) return <Navigate to={'/'} />;
 
@@ -16,7 +15,7 @@ function Profile() {
     <>
       <main className="main bg-dark">
         <div className="header">
-          <h1>Welcome back<br />{profile.firstName} {profile.lastName}!</h1>
+          <h1>Welcome back<br />{profile ? profile.firstName : null} {profile ? profile.lastName : null}!</h1>
           {/* <button className="edit-button">Edit Name</button> */}
           <ProfileForm />
         </div>

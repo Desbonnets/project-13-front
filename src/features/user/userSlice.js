@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk(
 export const getProfile = createAsyncThunk(
     'user/getProfile',
     async (token) =>{
-        return await fetchProfil(token)
+        return {profile: await fetchProfil(token)}
     },
 );
 
@@ -40,14 +40,6 @@ const getCacheUser = () => {
     }
     
 }
-
-// const getProfile = () => {
-//     if(window.localStorage.getItem('profile') !== null){
-//         return JSON.parse(window.localStorage.getItem('profile'));
-//     }else{
-//         return null;
-//     }
-// }
 
 const userSlice = createSlice({
     name: 'user',
