@@ -55,9 +55,6 @@ const userSlice = createSlice({
             state.profile = null;
             window.localStorage.removeItem('token');
             window.localStorage.removeItem('profile');
-        },
-        updateProfile(state, action){
-            
         }
     },
     extraReducers: (builder) => {

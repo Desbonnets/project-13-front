@@ -20,11 +20,6 @@ const ProfileForm = () => {
 
   const userRef = useRef(null)
 
-  // const validInput = (value) => {
-  //   let regex = /^[a-zA-Z]+(?:([',. -][a-zA-Z ])?[a-zA-Z])$/
-  //   return regex.test(value) ? '' : 'You must enter a valid name.'
-  // }
-
   useEffect(() => userRef.current?.focus(), [isUserEditShown])
 
   const handleSubmit = async () => {
